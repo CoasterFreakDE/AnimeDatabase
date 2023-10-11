@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta name="description" content="Discover a vast collection of Isekai Anime and find the perfect adventure to dive into. Browse by genre, mood, era, and more.">
+    <meta name="keywords" content="Isekai Anime, Anime Database, Adventure Anime, Fantasy Anime, Anime Search">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://coasterfreak.de/anime" />
+    <title>Anime Database</title>
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16.png">
+    <link rel="manifest" href="./assets/site.webmanifest">
+    <link rel="mask-icon" href="./assets/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="./assets/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/assets/browserconfig.xml">
+    <meta name="theme-color" content="#1c1c1c">
+
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@coasterfreakde">
+    <meta name="twitter:title" content="Anime Database">
+    <meta name="twitter:description" content="Discover a vast collection of Isekai Anime and find the perfect adventure to dive into. Browse by genre, mood, era, and more.">
+    <meta name="twitter:image" content="https://coasterfreak.de/anime/assets/android-chrome-192x192.png">
+</head>
+<body>
+
+<div id="header">
+    <label for="search">Search: </label><input type="text" id="search" placeholder="Attack on Titan">
+    <label for="sort">Sort: </label><select id="sort">
+        <option value="title">Title</option>
+        <option value="releaseDate">Release Date</option>
+        <option value="rating">Rating</option>
+        <option value="protagonistAge">Protagonist Age</option>
+    </select>
+</div>
+
+<div id="content">
+    <div id="filter">
+        <label>Genre:
+            <select id="genre">
+                <option value="">--All--</option>
+                <!-- Genre-Optionen -->
+            </select>
+        </label>
+        <br>
+        <label>Mood:
+            <select id="mood">
+                <option value="">--All--</option>
+                <!-- Stimmungsoptionen -->
+            </select>
+        </label>
+        <br>
+        <label>Era:
+            <select id="era">
+                <option value="">--All--</option>
+                <!-- Ära-Optionen -->
+            </select>
+        </label>
+        <br>
+        <label>Country of Origin:
+            <select id="country">
+                <option value="">--All--</option>
+                <!-- Länderoptionen -->
+            </select>
+        </label>
+        <br>
+        <label>Bewertung:
+            <input class="range-input" type="range" id="rating" min="0" max="10" step="0.1" value="0" oninput="updateRating()">
+            <span id="rating-value">0</span>
+        </label>
+        <br>
+        <label>Protagonist-Gender:
+            <select id="protagonist-gender">
+                <option value="">--All--</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+        </label>
+        <br>
+        <label>Protagonist-Age:
+            <input class="range-input" type="range" id="protagonist-age-min" min="0" max="100" value="0" oninput="updateAgeValues()">
+            <input class="range-input" type="range" id="protagonist-age-max" min="0" max="100" value="100" oninput="updateAgeValues()">
+            Min: <span id="age-min-value">0</span>, Max: <span id="age-max-value">100</span>
+        </label>
+        <br>
+        <label>License-Status:
+            <select id="license-status">
+                <option value="">--All--</option>
+                <option value="Licensed">Licensed</option>
+                <option value="Not Licensed">Not Licensed</option>
+            </select>
+        </label>
+        <br>
+        <label>Languages:
+            <select id="language">
+                <option value="">--All--</option>
+                <option value="japanese">Japanese</option>
+                <option value="english">English</option>
+                <option value="german">German</option>
+            </select>
+        </label>
+    </div>
+    
+    <div id="results">
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <!-- weitere Spalten -->
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <!-- Daten werden hier eingefügt -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
