@@ -33,6 +33,12 @@ This is the backend for the Isekai Discord Bot and Website. It is written in Kot
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
+### Prerequisites
+
+[IsekaiBackend](https://github.com/CoasterFreakDE/IsekaiBackend)
+or
+[Public IsekaiBackend Service](https://isekaibackend.coasterfreak.de)
+
 
 ### Installing
 
