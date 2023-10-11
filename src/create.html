@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta name="description" content="Discover a vast collection of Isekai Anime and find the perfect adventure to dive into. Browse by genre, mood, era, and more.">
+    <meta name="keywords" content="Isekai Anime, Anime Database, Adventure Anime, Fantasy Anime, Anime Search">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://coasterfreak.de/anime" />
+    <title>Anime Database - Create Anime</title>
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16.png">
+    <link rel="manifest" href="./assets/site.webmanifest">
+    <link rel="mask-icon" href="./assets/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="./assets/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/assets/browserconfig.xml">
+    <meta name="theme-color" content="#1c1c1c">
+
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@coasterfreakde">
+    <meta name="twitter:title" content="Anime Database">
+    <meta name="twitter:description" content="Discover a vast collection of Isekai Anime and find the perfect adventure to dive into. Browse by genre, mood, era, and more.">
+    <meta name="twitter:image" content="https://coasterfreak.de/anime/assets/android-chrome-192x192.png">
+</head>
+<body>
+
+<h1>Create new Anime</h1>
+
+<form id="anime-form">
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title" required><br>
+
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description" rows="4" cols="50" required></textarea><br>
+
+    <label for="seasons">Season Amount:</label><br>
+    <input type="number" id="seasons" name="seasons" min="1" required><br>
+
+    <label for="episodes">Total Episodes:</label><br>
+    <input type="number" id="episodes" name="episodes" min="1" required><br>
+
+    <label for="streamLink">Stream Link:</label><br>
+    <input type="url" id="streamLink" name="streamLink" required><br>
+
+    <!-- Protagonist Details -->
+    <h2>Protagonist Details</h2>
+    <label for="protagonistGender">Gender:</label><br>
+    <input type="text" id="protagonistGender" name="protagonistGender" required><br>
+
+    <label for="protagonistAge">Age:</label><br>
+    <input type="number" id="protagonistAge" name="protagonistAge" min="1" required><br>
+
+    <label for="protagonistOpLevel">OP Level:</label><br>
+    <input type="text" id="protagonistOpLevel" name="protagonistOpLevel" required><br>
+
+    <!-- Tags -->
+    <h2>Tags</h2>
+    <label for="genres">Genres (comma seperated):</label><br>
+    <input type="text" id="genres" name="genres" required><br>
+
+    <label for="moods">Moods (comma seperated):</label><br>
+    <input type="text" id="moods" name="moods" required><br>
+
+    <label for="era">Era:</label><br>
+    <input type="text" id="era" name="era" required><br>
+
+    <h2>Infos</h2>
+    <!-- Origin Country -->
+    <label for="originCountry">Country of Origin:</label><br>
+    <input type="text" id="originCountry" name="originCountry" required><br>
+
+    <!-- Release Date -->
+    <label for="releaseDate">Release Date:</label><br>
+    <input type="date" id="releaseDate" name="releaseDate" required><br>
+
+    <!-- Studio -->
+    <label for="studio">Studio:</label><br>
+    <input type="text" id="studio" name="studio" required><br>
+
+    <!-- Rating -->
+    <label for="rating">Rating:</label><br>
+    <input type="number" id="rating" name="rating" step="0.1" min="0" max="10" required><br>
+
+    <!-- License Status -->
+    <h2>License state</h2>
+    <label for="isLicensed">Licensed:</label>
+    <input type="checkbox" id="isLicensed" name="isLicensed"><br>
+
+    <label for="regions">Regions (comma seperated):</label><br>
+    <input type="text" id="regions" name="regions"><br>
+
+    <!-- Languages -->
+    <h2>Languages</h2>
+    <div id="languages-container">
+        <!-- Dynamische Sprachfelder werden hier hinzugefügt -->
+    </div>
+    <button type="button" onclick="addLanguageFields()">Sprache hinzufügen</button>
+
+    <!-- Characters -->
+    <h2>Characters</h2>
+    <div id="characters-container">
+        <!-- Dynamische Charakterfelder werden hier hinzugefügt -->
+    </div>
+    <button type="button" onclick="addCharacterFields()">Charakter hinzufügen</button>
+
+
+    <!-- Post Token (Bearer) -->
+    <h2>Post Token</h2>
+    <label for="token">Token for Post</label><input type="password" id="token" name="token" required>
+
+    <input type="submit" value="Anime hinzufügen">
+</form>
+
+<script src="script.js"></script> <!-- Ihr JavaScript zur Verarbeitung der Formulareingabe -->
+
+</body>
+</html>

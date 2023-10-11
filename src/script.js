@@ -154,6 +154,43 @@ async function loadData() {
     }
 }
 
+function addLanguageFields() {
+    const container = document.getElementById('languages-container');
+    const index = container.children.length;
+    container.innerHTML += `
+            <div id="language-${index}">
+                <label for="language-${index}-name">Sprache:</label>
+                <input type="text" id="language-${index}-name" name="languages[${index}][language]">
+                <label for="language-${index}-sub">Untertitel:</label>
+                <input type="checkbox" id="language-${index}-sub" name="languages[${index}][sub]">
+                <label for="language-${index}-dub">Dub:</label>
+                <input type="checkbox" id="language-${index}-dub" name="languages[${index}][dub]">
+                <button type="button" onclick="removeField('language-${index}')">Entfernen</button>
+            </div>
+        `;
+}
+
+function addCharacterFields() {
+    const container = document.getElementById('characters-container');
+    const index = container.children.length;
+    container.innerHTML += `
+            <div id="character-${index}">
+                <label for="character-${index}-name">Name:</label>
+                <input type="text" id="character-${index}-name" name="characters[${index}][name]">
+                <label for="character-${index}-role">Rolle:</label>
+                <input type="text" id="character-${index}-role" name="characters[${index}][role]">
+                <label for="character-${index}-description">Beschreibung:</label>
+                <textarea id="character-${index}-description" name="characters[${index}][description]" rows="2" cols="20"></textarea>
+                <button type="button" onclick="removeField('character-${index}')">Entfernen</button>
+            </div>
+        `;
+}
+
+function removeField(id) {
+    const field = document.getElementById(id);
+    field.remove();
+}
+
 /**
  * Populates the table with provided data.
  *
@@ -173,6 +210,70 @@ function populateTable(data) {
         tableBody.appendChild(row);
     });
 }
+
+
+document.getElementById('anime-form').addEventListener('submit', function(e) {
+    e.preventDefault();  // Verhindert das standardmäßige Verhalten des Formulars, das die Seite neuladen würde
+
+    const formData = new FormData(e.target);  // Erstellt ein FormData-Objekt aus dem Formular
+    const data = {
+        languages: [],
+        characters: []
+    };  // Initialisiert die Sprachen und Charaktere als leere Arrays
+
+    let postToken = "";
+
+    formData.forEach((value, key) => {  // Geht durch jedes Feld im Formular
+        if (key.startsWith('token')) {
+            postToken = value;
+            return;
+        }
+
+        if (key.startsWith('languages')) {
+            const index = key.match(/\[(\d+)\]/)[1];  // Extrahiert den Index aus dem Schlüssel
+            const subKey = key.match(/\[([a-z]+)\]$/)[1];  // Extrahiert den Untertitel aus dem Schlüssel
+            data.languages[index] = data.languages[index] || {};  // Initialisiert das Sprachenobjekt, falls es noch nicht existiert
+            if (subKey === 'dub' || subKey === 'sub') {
+                data.languages[index][subKey] = value === 'on';  // Setzt den Wert im Sprachenobjekt und konvertiert in einen booleschen Wert
+            } else {
+                data.languages[index][subKey] = value;  // Setzt den Wert im Sprachenobjekt
+            }
+        } else if (key.startsWith('characters')) {
+            const index = key.match(/\[(\d+)\]/)[1];  // Extrahiert den Index aus dem Schlüssel
+            const subKey = key.match(/\[([a-z]+)\]$/)[1];  // Extrahiert den Untertitel aus dem Schlüssel
+            data.characters[index] = data.characters[index] || {};  // Initialisiert das Charakterobjekt, falls es noch nicht existiert
+            data.characters[index][subKey] = value;  // Setzt den Wert im Charakterobjekt
+        } else {
+            data[key] = value;  // Setzt den Wert im Datenobjekt für alle anderen Felder
+        }
+    });
+
+    data.isLicensed = formData.get('isLicensed') === 'on';  // Konvertiert den isLicensed-Wert in einen booleschen Wert
+    
+    // Umwandlung des Datums in einen UNIX-Timestamp
+    const dateString = formData.get('releaseDate');
+    const dateObject = new Date(dateString);
+    data.releaseDate = Math.floor(dateObject.getTime() / 1000);
+
+    const json = JSON.stringify(data);  // Konvertiert das Datenobjekt in eine JSON-Zeichenfolge
+
+    fetch('https://isekaibackend.coasterfreak.de', {  // Sendet die JSON-Daten an das Backend
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + postToken,
+        },
+        body: json
+    })
+        .then(response => response.json())  // Konvertiert die Antwort des Backends in ein JSON-Objekt
+        .then(data => {
+            console.log('Success:', data);  // Zeigt die Antwort des Backends in der Konsole an
+        })
+        .catch((error) => {
+            console.error('Error:', error);  // Zeigt einen Fehler in der Konsole an, falls etwas schief geht
+        });
+});
+
 
 // Load the data when the page loads and when any filter value changes
 // Load the filter data when the page loads
