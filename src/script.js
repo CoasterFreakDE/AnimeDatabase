@@ -216,45 +216,65 @@ document.getElementById('anime-form').addEventListener('submit', function(e) {
     e.preventDefault();  // Verhindert das standardmäßige Verhalten des Formulars, das die Seite neuladen würde
 
     const formData = new FormData(e.target);  // Erstellt ein FormData-Objekt aus dem Formular
-    const data = {
-        languages: [],
-        characters: []
-    };  // Initialisiert die Sprachen und Charaktere als leere Arrays
 
-    let postToken = "";
+    const protagonist = {
+        gender: formData.get('protagonistGender'),
+        age: parseInt(formData.get('protagonistAge'), 10),
+        opLevel: formData.get('protagonistOpLevel')
+    };
 
-    formData.forEach((value, key) => {  // Geht durch jedes Feld im Formular
-        if (key.startsWith('token')) {
-            postToken = value;
-            return;
-        }
+    const tags = {
+        genre: formData.get('tagsGenre').split(','),
+        mood: formData.get('tagsMood').split(','),
+        era: formData.get('tagsEra')
+    };
 
-        if (key.startsWith('languages')) {
-            const index = key.match(/\[(\d+)\]/)[1];  // Extrahiert den Index aus dem Schlüssel
-            const subKey = key.match(/\[([a-z]+)\]$/)[1];  // Extrahiert den Untertitel aus dem Schlüssel
-            data.languages[index] = data.languages[index] || {};  // Initialisiert das Sprachenobjekt, falls es noch nicht existiert
-            if (subKey === 'dub' || subKey === 'sub') {
-                data.languages[index][subKey] = value === 'on';  // Setzt den Wert im Sprachenobjekt und konvertiert in einen booleschen Wert
-            } else {
-                data.languages[index][subKey] = value;  // Setzt den Wert im Sprachenobjekt
-            }
-        } else if (key.startsWith('characters')) {
-            const index = key.match(/\[(\d+)\]/)[1];  // Extrahiert den Index aus dem Schlüssel
-            const subKey = key.match(/\[([a-z]+)\]$/)[1];  // Extrahiert den Untertitel aus dem Schlüssel
-            data.characters[index] = data.characters[index] || {};  // Initialisiert das Charakterobjekt, falls es noch nicht existiert
-            data.characters[index][subKey] = value;  // Setzt den Wert im Charakterobjekt
-        } else {
-            data[key] = value;  // Setzt den Wert im Datenobjekt für alle anderen Felder
-        }
-    });
+    const licenseStatus = {
+        isLicensed: formData.get('isLicensed') === 'on',
+        regions: formData.get('regions').split(',')
+    };
 
-    data.isLicensed = formData.get('isLicensed') === 'on';  // Konvertiert den isLicensed-Wert in einen booleschen Wert
-    
-    // Umwandlung des Datums in einen UNIX-Timestamp
+    const languages = [];
+    const languageFields = document.getElementById('languages-container').children;
+    for (let i = 0; i < languageFields.length; i++) {
+        const language = languageFields[i].querySelector(`input[name="languages[${i}][language]"]`).value;
+        const sub = languageFields[i].querySelector(`input[name="languages[${i}][sub]"]`).checked;
+        const dub = languageFields[i].querySelector(`input[name="languages[${i}][dub]"]`).checked;
+        languages.push({ language, sub, dub });
+    }
+
+    const characters = [];
+    const characterFields = document.getElementById('characters-container').children;
+    for (let i = 0; i < characterFields.length; i++) {
+        const name = characterFields[i].querySelector(`input[name="characters[${i}][name]"]`).value;
+        const role = characterFields[i].querySelector(`input[name="characters[${i}][role]"]`).value;
+        const description = characterFields[i].querySelector(`textarea[name="characters[${i}][description]"]`).value;
+        characters.push({ name, role, description });
+    }
+
     const dateString = formData.get('releaseDate');
     const dateObject = new Date(dateString);
-    data.releaseDate = Math.floor(dateObject.getTime() / 1000);
+    const releaseDate = Math.floor(dateObject.getTime() / 1000);
 
+    const data = {
+        title: formData.get('title'),
+        description: formData.get('description'),
+        seasons: parseInt(formData.get('seasons'), 10),
+        episodes: parseInt(formData.get('episodes'), 10),
+        streamLink: formData.get('streamLink'),
+        protagonist,
+        tags,
+        originCountry: formData.get('originCountry'),
+        releaseDate,
+        studio: formData.get('studio'),
+        rating: parseFloat(formData.get('rating')),
+        licenseStatus,
+        languages,
+        characters
+    };
+
+    const postToken = formData.get('token');
+    
     const json = JSON.stringify(data);  // Konvertiert das Datenobjekt in eine JSON-Zeichenfolge
 
     fetch('https://isekaibackend.coasterfreak.de', {  // Sendet die JSON-Daten an das Backend
